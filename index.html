@@ -108,11 +108,11 @@
   <div class="video-row" data-pair>
     <div class="video-col">
       <div class="label">Baseline</div>
-      <video src="Baseline/a%20bicycle%20slowing%20down%20to%20stop-0.mp4" autoplay muted loop playsinline></video>
+      <video src="Baseline/a%20bicycle%20slowing%20down%20to%20stop-0.mp4" autoplay muted playsinline></video>
     </div>
     <div class="video-col">
       <div class="label">TAG (Ours)</div>
-      <video src="TAG/a%20bicycle%20slowing%20down%20to%20stop-0_tag.mp4" autoplay muted loop playsinline></video>
+      <video src="TAG/a%20bicycle%20slowing%20down%20to%20stop-0_tag.mp4" autoplay muted playsinline></video>
     </div>
   </div>
 </div>
@@ -124,11 +124,11 @@
   <div class="video-row" data-pair>
     <div class="video-col">
       <div class="label">Baseline</div>
-      <video src="Baseline/a%20person%20and%20a%20hair%20drier-0.mp4" autoplay muted loop playsinline></video>
+      <video src="Baseline/a%20person%20and%20a%20hair%20drier-0.mp4" autoplay muted playsinline></video>
     </div>
     <div class="video-col">
       <div class="label">TAG (Ours)</div>
-      <video src="TAG/a%20person%20and%20a%20hair%20drier-0_tag.mp4" autoplay muted loop playsinline></video>
+      <video src="TAG/a%20person%20and%20a%20hair%20drier-0_tag.mp4" autoplay muted playsinline></video>
     </div>
   </div>
 </div>
@@ -140,11 +140,11 @@
   <div class="video-row" data-pair>
     <div class="video-col">
       <div class="label">Baseline</div>
-      <video src="Baseline/A%20person%20is%20crawling%20baby-0.mp4" autoplay muted loop playsinline></video>
+      <video src="Baseline/A%20person%20is%20crawling%20baby-0.mp4" autoplay muted playsinline></video>
     </div>
     <div class="video-col">
       <div class="label">TAG (Ours)</div>
-      <video src="TAG/A%20person%20is%20crawling%20baby-0_tag.mp4" autoplay muted loop playsinline></video>
+      <video src="TAG/A%20person%20is%20crawling%20baby-0_tag.mp4" autoplay muted playsinline></video>
     </div>
   </div>
 </div>
@@ -156,11 +156,11 @@
   <div class="video-row" data-pair>
     <div class="video-col">
       <div class="label">Baseline</div>
-      <video src="Baseline/a%20tennis%20racket%20and%20a%20bottle-0.mp4" autoplay muted loop playsinline></video>
+      <video src="Baseline/a%20tennis%20racket%20and%20a%20bottle-0.mp4" autoplay muted playsinline></video>
     </div>
     <div class="video-col">
       <div class="label">TAG (Ours)</div>
-      <video src="TAG/a%20tennis%20racket%20and%20a%20bottle-0_tag.mp4" autoplay muted loop playsinline></video>
+      <video src="TAG/a%20tennis%20racket%20and%20a%20bottle-0_tag.mp4" autoplay muted playsinline></video>
     </div>
   </div>
 </div>
@@ -172,11 +172,11 @@
   <div class="video-row" data-pair>
     <div class="video-col">
       <div class="label">Baseline</div>
-      <video src="Baseline/arch-0.mp4" autoplay muted loop playsinline></video>
+      <video src="Baseline/arch-0.mp4" autoplay muted playsinline></video>
     </div>
     <div class="video-col">
       <div class="label">TAG (Ours)</div>
-      <video src="TAG/arch-0_tag.mp4" autoplay muted loop playsinline></video>
+      <video src="TAG/arch-0_tag.mp4" autoplay muted playsinline></video>
     </div>
   </div>
 </div>
@@ -188,11 +188,11 @@
   <div class="video-row" data-pair>
     <div class="video-col">
       <div class="label">Baseline</div>
-      <video src="Baseline/carrousel-0.mp4" autoplay muted loop playsinline></video>
+      <video src="Baseline/carrousel-0.mp4" autoplay muted playsinline></video>
     </div>
     <div class="video-col">
       <div class="label">TAG (Ours)</div>
-      <video src="TAG/carrousel-0_tag.mp4" autoplay muted loop playsinline></video>
+      <video src="TAG/carrousel-0_tag.mp4" autoplay muted playsinline></video>
     </div>
   </div>
 </div>
@@ -206,20 +206,25 @@
     allVideos.forEach(v => { v.currentTime = 0; v.play(); });
   }
 
-  // Synchronize play/pause within each pair
+  // Synchronize play/pause and looping within each pair
   document.querySelectorAll('[data-pair]').forEach(pair => {
     const videos = pair.querySelectorAll('video');
     if (videos.length !== 2) return;
     const [a, b] = videos;
+    let syncing = false;
 
-    a.addEventListener('play', () => { if (b.paused) b.play(); });
-    a.addEventListener('pause', () => { if (!b.paused) b.pause(); });
-    b.addEventListener('play', () => { if (a.paused) a.play(); });
-    b.addEventListener('pause', () => { if (!a.paused) a.pause(); });
+    a.addEventListener('play', () => { if (!syncing && b.paused) { syncing = true; b.play(); syncing = false; } });
+    a.addEventListener('pause', () => { if (!syncing && !b.paused) { syncing = true; b.pause(); syncing = false; } });
+    b.addEventListener('play', () => { if (!syncing && a.paused) { syncing = true; a.play(); syncing = false; } });
+    b.addEventListener('pause', () => { if (!syncing && !a.paused) { syncing = true; a.pause(); syncing = false; } });
 
-    // Sync time on seek
-    a.addEventListener('seeked', () => { b.currentTime = a.currentTime; });
-    b.addEventListener('seeked', () => { a.currentTime = b.currentTime; });
+    // Sync time on user seek, guarded against feedback loop
+    a.addEventListener('seeked', () => { if (!syncing) { syncing = true; b.currentTime = a.currentTime; syncing = false; } });
+    b.addEventListener('seeked', () => { if (!syncing) { syncing = true; a.currentTime = b.currentTime; syncing = false; } });
+
+    // Manual loop: when either video ends, restart both together
+    a.addEventListener('ended', () => { syncing = true; a.currentTime = 0; b.currentTime = 0; a.play(); b.play(); syncing = false; });
+    b.addEventListener('ended', () => { syncing = true; a.currentTime = 0; b.currentTime = 0; a.play(); b.play(); syncing = false; });
   });
 </script>
 
