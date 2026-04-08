@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Supplementary Rebuttal Video Comparison for: 18956, TAG</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    background: #fff;
+    color: #222;
+    padding: 40px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  h1 {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .subtitle {
+    text-align: center;
+    font-size: 0.95rem;
+    color: #555;
+    margin-bottom: 32px;
+  }
+  .controls {
+    text-align: center;
+    margin-bottom: 36px;
+  }
+  .controls button {
+    padding: 8px 20px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    border: 1px solid #999;
+    border-radius: 4px;
+    background: #f7f7f7;
+    margin: 0 4px;
+    transition: background 0.15s;
+  }
+  .controls button:hover { background: #e8e8e8; }
+  .comparison {
+    margin-bottom: 48px;
+  }
+  .prompt-label {
+    text-align: center;
+    font-size: 1.05rem;
+    font-weight: 500;
+    margin-bottom: 10px;
+    color: #333;
+  }
+  .prompt-label span {
+    background: #f0f0f0;
+    padding: 4px 14px;
+    border-radius: 4px;
+    font-style: italic;
+  }
+  .video-row {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+  }
+  .video-col {
+    flex: 1;
+    max-width: 560px;
+    text-align: center;
+  }
+  .video-col .label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #666;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .video-col video {
+    width: 100%;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    background: #000;
+  }
+  hr {
+    border: none;
+    border-top: 1px solid #eee;
+    margin-bottom: 48px;
+  }
+  @media (max-width: 700px) {
+    .video-row { flex-direction: column; align-items: center; }
+    .video-col { max-width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<h1>Supplementary Rebuttal Video Comparison for: 18956, TAG</h1>
+<p class="subtitle">Each row compares Baseline (left) vs TAG [Ours] (right) for the same text prompt.</p>
+
+<div class="controls">
+  <button onclick="playAll()">Play All</button>
+  <button onclick="pauseAll()">Pause All</button>
+  <button onclick="restartAll()">Restart All</button>
+</div>
+
+<div class="comparison">
+  <div class="prompt-label"><span>"a bicycle slowing down to stop"</span></div>
+  <div class="video-row" data-pair>
+    <div class="video-col">
+      <div class="label">Baseline</div>
+      <video src="Baseline/a%20bicycle%20slowing%20down%20to%20stop-0.mp4" autoplay muted loop playsinline></video>
+    </div>
+    <div class="video-col">
+      <div class="label">TAG (Ours)</div>
+      <video src="TAG/a%20bicycle%20slowing%20down%20to%20stop-0_tag.mp4" autoplay muted loop playsinline></video>
+    </div>
+  </div>
+</div>
+
+<hr>
+
+<div class="comparison">
+  <div class="prompt-label"><span>"a person and a hair drier"</span></div>
+  <div class="video-row" data-pair>
+    <div class="video-col">
+      <div class="label">Baseline</div>
+      <video src="Baseline/a%20person%20and%20a%20hair%20drier-0.mp4" autoplay muted loop playsinline></video>
+    </div>
+    <div class="video-col">
+      <div class="label">TAG (Ours)</div>
+      <video src="TAG/a%20person%20and%20a%20hair%20drier-0_tag.mp4" autoplay muted loop playsinline></video>
+    </div>
+  </div>
+</div>
+
+<hr>
+
+<div class="comparison">
+  <div class="prompt-label"><span>"A person is crawling baby"</span></div>
+  <div class="video-row" data-pair>
+    <div class="video-col">
+      <div class="label">Baseline</div>
+      <video src="Baseline/A%20person%20is%20crawling%20baby-0.mp4" autoplay muted loop playsinline></video>
+    </div>
+    <div class="video-col">
+      <div class="label">TAG (Ours)</div>
+      <video src="TAG/A%20person%20is%20crawling%20baby-0_tag.mp4" autoplay muted loop playsinline></video>
+    </div>
+  </div>
+</div>
+
+<hr>
+
+<div class="comparison">
+  <div class="prompt-label"><span>"a tennis racket and a bottle"</span></div>
+  <div class="video-row" data-pair>
+    <div class="video-col">
+      <div class="label">Baseline</div>
+      <video src="Baseline/a%20tennis%20racket%20and%20a%20bottle-0.mp4" autoplay muted loop playsinline></video>
+    </div>
+    <div class="video-col">
+      <div class="label">TAG (Ours)</div>
+      <video src="TAG/a%20tennis%20racket%20and%20a%20bottle-0_tag.mp4" autoplay muted loop playsinline></video>
+    </div>
+  </div>
+</div>
+
+<hr>
+
+<div class="comparison">
+  <div class="prompt-label"><span>"arch"</span></div>
+  <div class="video-row" data-pair>
+    <div class="video-col">
+      <div class="label">Baseline</div>
+      <video src="Baseline/arch-0.mp4" autoplay muted loop playsinline></video>
+    </div>
+    <div class="video-col">
+      <div class="label">TAG (Ours)</div>
+      <video src="TAG/arch-0_tag.mp4" autoplay muted loop playsinline></video>
+    </div>
+  </div>
+</div>
+
+<hr>
+
+<div class="comparison">
+  <div class="prompt-label"><span>"carrousel"</span></div>
+  <div class="video-row" data-pair>
+    <div class="video-col">
+      <div class="label">Baseline</div>
+      <video src="Baseline/carrousel-0.mp4" autoplay muted loop playsinline></video>
+    </div>
+    <div class="video-col">
+      <div class="label">TAG (Ours)</div>
+      <video src="TAG/carrousel-0_tag.mp4" autoplay muted loop playsinline></video>
+    </div>
+  </div>
+</div>
+
+<script>
+  const allVideos = document.querySelectorAll('video');
+
+  function playAll() { allVideos.forEach(v => v.play()); }
+  function pauseAll() { allVideos.forEach(v => v.pause()); }
+  function restartAll() {
+    allVideos.forEach(v => { v.currentTime = 0; v.play(); });
+  }
+
+  // Synchronize play/pause within each pair
+  document.querySelectorAll('[data-pair]').forEach(pair => {
+    const videos = pair.querySelectorAll('video');
+    if (videos.length !== 2) return;
+    const [a, b] = videos;
+
+    a.addEventListener('play', () => { if (b.paused) b.play(); });
+    a.addEventListener('pause', () => { if (!b.paused) b.pause(); });
+    b.addEventListener('play', () => { if (a.paused) a.play(); });
+    b.addEventListener('pause', () => { if (!a.paused) a.pause(); });
+
+    // Sync time on seek
+    a.addEventListener('seeked', () => { b.currentTime = a.currentTime; });
+    b.addEventListener('seeked', () => { a.currentTime = b.currentTime; });
+  });
+</script>
+
+</body>
+</html>
