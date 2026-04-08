@@ -103,53 +103,80 @@
   <button onclick="restartAll()">Restart All</button>
 </div>
 
-<div id="comparisons"></div>
+<div class="comparison">
+  <div class="prompt-label"><span>"a bicycle slowing down to stop"</span></div>
+  <div class="video-row" data-pair>
+    <div class="video-col">
+      <div class="label">Baseline</div>
+      <video src="Baseline/a%20bicycle%20slowing%20down%20to%20stop-0.mp4" muted playsinline preload="auto"></video>
+    </div>
+    <div class="video-col">
+      <div class="label">TAG (Ours)</div>
+      <video src="TAG/a%20bicycle%20slowing%20down%20to%20stop-0_tag.mp4" muted playsinline preload="auto"></video>
+    </div>
+  </div>
+</div>
+
+<hr>
+
+<div class="comparison">
+  <div class="prompt-label"><span>"a person and a hair drier"</span></div>
+  <div class="video-row" data-pair>
+    <div class="video-col">
+      <div class="label">Baseline</div>
+      <video src="Baseline/a%20person%20and%20a%20hair%20drier-0.mp4" muted playsinline preload="auto"></video>
+    </div>
+    <div class="video-col">
+      <div class="label">TAG (Ours)</div>
+      <video src="TAG/a%20person%20and%20a%20hair%20drier-0_tag.mp4" muted playsinline preload="auto"></video>
+    </div>
+  </div>
+</div>
+
+<hr>
+
+<div class="comparison">
+  <div class="prompt-label"><span>"A person is crawling baby"</span></div>
+  <div class="video-row" data-pair>
+    <div class="video-col">
+      <div class="label">Baseline</div>
+      <video src="Baseline/A%20person%20is%20crawling%20baby-0.mp4" muted playsinline preload="auto"></video>
+    </div>
+    <div class="video-col">
+      <div class="label">TAG (Ours)</div>
+      <video src="TAG/A%20person%20is%20crawling%20baby-0_tag.mp4" muted playsinline preload="auto"></video>
+    </div>
+  </div>
+</div>
+
+<hr>
+
+<div class="comparison">
+  <div class="prompt-label"><span>"a tennis racket and a bottle"</span></div>
+  <div class="video-row" data-pair>
+    <div class="video-col">
+      <div class="label">Baseline</div>
+      <video src="Baseline/a%20tennis%20racket%20and%20a%20bottle-0.mp4" muted playsinline preload="auto"></video>
+    </div>
+    <div class="video-col">
+      <div class="label">TAG (Ours)</div>
+      <video src="TAG/a%20tennis%20racket%20and%20a%20bottle-0_tag.mp4" muted playsinline preload="auto"></video>
+    </div>
+  </div>
+</div>
 
 <script>
-  fetch('sampled_prompts.json')
-    .then(r => r.json())
-    .then(prompts => {
-      const container = document.getElementById('comparisons');
-
-      prompts.forEach((prompt, i) => {
-        const encoded = encodeURIComponent(prompt + '-0');
-        const encodedTag = encodeURIComponent(prompt + '-0_tag');
-        const baselineSrc = 'Baseline/' + encoded + '.mp4';
-        const tagSrc = 'TAG/' + encodedTag + '.mp4';
-
-        // Check if both videos exist before adding
-        const baselineCheck = fetch(baselineSrc, { method: 'HEAD' });
-        const tagCheck = fetch(tagSrc, { method: 'HEAD' });
-
-        Promise.all([baselineCheck, tagCheck]).then(([bRes, tRes]) => {
-          if (!bRes.ok || !tRes.ok) return;
-
-          const section = document.createElement('div');
-          section.innerHTML =
-            (container.children.length > 0 ? '<hr>' : '') +
-            '<div class="comparison">' +
-              '<div class="prompt-label"><span>\"' + prompt + '\"</span></div>' +
-              '<div class="video-row" data-pair>' +
-                '<div class="video-col">' +
-                  '<div class="label">Baseline</div>' +
-                  '<video src="' + baselineSrc + '" muted playsinline preload="auto"></video>' +
-                '</div>' +
-                '<div class="video-col">' +
-                  '<div class="label">TAG (Ours)</div>' +
-                  '<video src="' + tagSrc + '" muted playsinline preload="auto"></video>' +
-                '</div>' +
-              '</div>' +
-            '</div>';
-          container.appendChild(section);
-
-          // Wire up this pair
-          setupPair(section.querySelector('[data-pair]'));
-        });
-      });
+  function playAll() {
+    document.querySelectorAll('[data-pair]').forEach(pair => {
+      pair.querySelectorAll('video').forEach(v => { v.currentTime = 0; v.play(); });
     });
+  }
+  function pauseAll() {
+    document.querySelectorAll('video').forEach(v => v.pause());
+  }
+  function restartAll() { playAll(); }
 
-  function setupPair(pair) {
-    if (!pair) return;
+  document.querySelectorAll('[data-pair]').forEach(pair => {
     const videos = pair.querySelectorAll('video');
     if (videos.length !== 2) return;
     const [a, b] = videos;
@@ -169,7 +196,6 @@
     a.addEventListener('pause', () => { if (!b.paused) b.pause(); });
     b.addEventListener('pause', () => { if (!a.paused) a.pause(); });
 
-    // Only play when visible
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -181,17 +207,7 @@
       });
     }, { threshold: 0.3 });
     observer.observe(pair);
-  }
-
-  function playAll() {
-    document.querySelectorAll('[data-pair]').forEach(pair => {
-      pair.querySelectorAll('video').forEach(v => { v.currentTime = 0; v.play(); });
-    });
-  }
-  function pauseAll() {
-    document.querySelectorAll('video').forEach(v => v.pause());
-  }
-  function restartAll() { playAll(); }
+  });
 </script>
 
 </body>
